@@ -11,15 +11,14 @@ buildscript {
 version "0.1"
 group "com.red2blue.plugins"
 
-apply plugin:"eclipse"
-apply plugin:"idea"
-apply plugin:"war"
-apply plugin:"org.grails.grails-plugin"
-apply plugin:"org.grails.grails-plugin-publish"
+apply plugin: "eclipse"
+apply plugin: "idea"
+apply plugin: "war"
+apply plugin: "org.grails.grails-plugin"
+apply plugin: "org.grails.grails-plugin-publish"
 
 repositories {
     mavenLocal()
-//    maven { url "http://localhost:9090/nexus/content/repositories/grails-core/" }
     maven { url "https://repo.grails.org/grails/core" }
 }
 
@@ -61,7 +60,7 @@ grailsPublish {
     }
     title = "My Plugin"
     desc = "Full plugin description"
-    developers = [johndoe:"John Doe"]
+    developers = [johndoe: "John Doe"]
     portalUser = ""
-    portalPassword = ""    
+    portalPassword = ""
 }

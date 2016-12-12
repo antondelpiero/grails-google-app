@@ -7,29 +7,19 @@ import com.google.api.client.http.HttpTransport
 import com.google.api.client.json.JsonFactory
 import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.drive.Drive
-import grails.core.GrailsApplication
 
-/**
- * Created by antonprawiro on 11/12/2016.
- */
 class GoogleDrive {
-    /** Application name. */
-    private static final String APPLICATION_NAME =  "Drive API Java Quickstart"
-
-    /** Global instance of the JSON factory. */
     private static final JsonFactory JSON_FACTORY = JacksonFactory.defaultInstance
-
-    /** Global instance of the HTTP transport. */
     private static HttpTransport HTTP_TRANSPORT
 
     Drive drive
 
     static {
         try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport()
         } catch (Throwable t) {
-            t.printStackTrace();
-            System.exit(1);
+            t.printStackTrace()
+            System.exit(1)
         }
     }
 
@@ -38,7 +28,7 @@ class GoogleDrive {
      * @return an authorized Credential object.
      * @throws IOException
      */
-    public static Credential authorize(String clientId, String clientSecret, String refreshToken) throws IOException {
+    private static Credential authorize(String clientId, String clientSecret, String refreshToken) throws IOException {
         GoogleCredential credential = new GoogleCredential.Builder()
                 .setTransport(HTTP_TRANSPORT)
                 .setJsonFactory(JSON_FACTORY)
@@ -48,9 +38,9 @@ class GoogleDrive {
         credential
     }
 
-    public GoogleDrive(String clientId, String clientSecret, String refreshToken) throws IOException {
+    GoogleDrive(String clientId, String clientSecret, String refreshToken) throws IOException {
         Credential credential = authorize(clientId, clientSecret, refreshToken)
-        drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(APPLICATION_NAME).build()
+        drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build()
     }
 
 }
