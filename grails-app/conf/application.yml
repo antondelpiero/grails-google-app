@@ -1,7 +1,7 @@
 grails:
     profile: plugin
     codegen:
-        defaultPackage: com.red2blue
+        defaultPackage: grails.plugins.google
     spring:
         transactionManagement:
             proxies: false

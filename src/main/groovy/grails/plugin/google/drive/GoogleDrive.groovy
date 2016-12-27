@@ -1,4 +1,4 @@
-package com.red2blue.plugin.google.drive
+package grails.plugin.google.drive
 
 import com.google.api.client.auth.oauth2.Credential
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential
@@ -23,12 +23,7 @@ class GoogleDrive {
         }
     }
 
-    /**
-     * Creates an authorized Credential object.
-     * @return an authorized Credential object.
-     * @throws IOException
-     */
-    private static Credential authorize(String clientId, String clientSecret, String refreshToken) throws IOException {
+    private static Credential authorize(String clientId, String clientSecret, String refreshToken) {
         GoogleCredential credential = new GoogleCredential.Builder()
                 .setTransport(HTTP_TRANSPORT)
                 .setJsonFactory(JSON_FACTORY)
@@ -38,7 +33,7 @@ class GoogleDrive {
         credential
     }
 
-    GoogleDrive(String clientId, String clientSecret, String refreshToken) throws IOException {
+    GoogleDrive(String clientId, String clientSecret, String refreshToken) {
         Credential credential = authorize(clientId, clientSecret, refreshToken)
         drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build()
     }
