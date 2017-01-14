@@ -9,6 +9,7 @@ import com.google.api.client.json.jackson2.JacksonFactory
 import com.google.api.services.drive.Drive
 
 class GoogleDrive {
+
     private static final JsonFactory JSON_FACTORY = JacksonFactory.defaultInstance
     private static HttpTransport HTTP_TRANSPORT
 
@@ -33,9 +34,20 @@ class GoogleDrive {
         credential
     }
 
-    GoogleDrive(String clientId, String clientSecret, String refreshToken) {
+    GoogleDrive(String applicationName, String clientId, String clientSecret, String refreshToken) {
         Credential credential = authorize(clientId, clientSecret, refreshToken)
-        drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).build()
+        drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(applicationName).build()
+    }
+
+    private static Credential authorize(InputStream credentialStream, List<String> scopes) {
+        GoogleCredential credential = GoogleCredential.fromStream(credentialStream, HTTP_TRANSPORT, JSON_FACTORY)
+        credential.serviceAccountScopes = scopes
+        credential
+    }
+
+    GoogleDrive(String applicationName, InputStream credentialStream, List<String> scopes) {
+        Credential credential = authorize(credentialStream, scopes)
+        drive = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, credential).setApplicationName(applicationName).build()
     }
 
 }

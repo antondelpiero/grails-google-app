@@ -5,27 +5,25 @@ import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import grails.plugin.google.CustomProgressListener
 import org.springframework.web.multipart.MultipartFile
+import reactor.spring.context.annotation.Consumer
+import reactor.spring.context.annotation.Selector
 
 import javax.annotation.PostConstruct
 
+@Consumer
 class GoogleDriveService {
 
     static final String FOLDER_TYPE = "application/vnd.google-apps.folder"
     static final String FOLDERS_QUERY = "mimeType='${FOLDER_TYPE}' and trashed=false"
 
-    def grailsApplication
+    def googleDriveInitService
 
     Drive drive
 
     @PostConstruct
+    @Selector('plugin.google.drive.restart')
     void init() {
-        def config = grailsApplication.config.grails.plugin.google.drive.credential
-
-        assert config.clientId
-        assert config.clientSecret
-        assert config.refreshToken
-
-        drive = new GoogleDrive(config.clientId.toString(), config.clientSecret.toString(), config.refreshToken.toString()).drive
+        drive = googleDriveInitService.init()
     }
 
     Drive.Files.Get get(String id) {
