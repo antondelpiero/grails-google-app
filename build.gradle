@@ -48,19 +48,16 @@ dependencies {
 
 bootRun {
     jvmArgs = ['-Dspring.output.ansi.enabled=always']
-}// enable if you wish to package this plugin as a standalone application
+}
+
+// enable if you wish to package this plugin as a standalone application
 bootRepackage.enabled = false
 grailsPublish {
-    // TODO: Provide values here
-    user = 'user'
-    key = 'key'
-    githubSlug = 'foo/bar'
+    githubSlug = 'antondelpiero/grails-google-app'
     license {
         name = 'Apache-2.0'
     }
-    title = "My Plugin"
-    desc = "Full plugin description"
-    developers = [johndoe: "John Doe"]
-    portalUser = ""
-    portalPassword = ""
+    title = "Grails Google App Plugin"
+    desc = "Plugin to connect to google apps"
+    developers = [antondelpiero: "Anton Prawiro"]
 }
