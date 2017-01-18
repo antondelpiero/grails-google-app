@@ -7,7 +7,7 @@ import groovy.util.logging.Slf4j
 @Slf4j
 class GoogleDriveInitService {
 
-    private static final String APPLICATION_NAME = "Red2Blue Google Drive Plugin"
+    private static final String APPLICATION_NAME = "Google Drive Plugin"
 
     def grailsApplication
 
@@ -54,8 +54,9 @@ class GoogleDriveInitService {
                     applicationName : credential.applicationName ?: APPLICATION_NAME,
                     clientId        : credential.clientId,
                     clientSecret    : credential.clientSecret,
+                    refreshToken    : credential.refreshToken,
                     credentialStream: credential.jsonCredential ? new BufferedInputStream(credential.jsonCredential.inputStream) : null,
-                    refreshToken    : credential.refreshToken
+                    scopes          : credential.scopes
             ]
         } catch (RuntimeException e) {
             log.error('Exception was thrown when calling the database. Please check your database or tables for errors!', e.cause)
@@ -70,7 +71,13 @@ class GoogleDriveInitService {
     }
 
     private static Drive initWithServiceAccount(config) {
-        config.scopes = !config.scopes ?: config.scopes.collect { DriveScopes."${it}" }
+        try {
+            config.scopes = !config.scopes ?: config.scopes.collect { DriveScopes."${it}" }
+        } catch (MissingPropertyException e) {
+            log.error('No valid DriveScopes for google drive can be found, please check your configuration again!', e.cause)
+            return null
+        }
+
         if (!config.credentialStream || !config.scopes) {
             log.error('No valid SERVICE_ACCOUNT credential for google drive can be found, please check your configuration again!')
             return null
