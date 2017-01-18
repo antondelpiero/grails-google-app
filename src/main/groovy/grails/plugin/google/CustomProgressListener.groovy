@@ -13,7 +13,7 @@ class CustomProgressListener implements MediaHttpUploaderProgressListener {
     void progressChanged(MediaHttpUploader uploader) {
         switch (uploader.getUploadState()) {
             case INITIATION_STARTED:
-                log.info "Initiation has started!"
+                log.info "Initiation has been started!"
                 break
             case INITIATION_COMPLETE:
                 log.info "Initiation is complete!"
