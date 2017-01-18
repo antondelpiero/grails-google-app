@@ -23,7 +23,8 @@ class GoogleDriveService {
     @PostConstruct
     @Selector('plugin.google.drive.restart')
     void init() {
-        drive = googleDriveInitService.init()
+        // to make this service unit testable
+        drive = googleDriveInitService?.init()
     }
 
     Drive.Files.Get get(String id) {
@@ -32,7 +33,7 @@ class GoogleDriveService {
 
     File getOrCreateFolder(String folderName) {
         File result = drive.files().list().setQ(FOLDERS_QUERY).execute().getFiles().find { it.name == folderName }
-        result ?: createFolder(folderName)
+        result != null ? result : createFolder(folderName)
     }
 
     File createFolder(String folderName) {
@@ -55,7 +56,7 @@ class GoogleDriveService {
     }
 
     private File getFileMeta(String fileName, String folderName) {
-        String folderId = folderName ? getOrCreateFolder(folderName).id : 'root'
+        String folderId = !folderName || folderName == 'root' ? 'root' : getOrCreateFolder(folderName).id
         new File(name: fileName, parents: Collections.singletonList(folderId))
     }
 
