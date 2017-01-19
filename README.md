@@ -31,7 +31,7 @@ Add `domainClassName: 'com.yourcompany.google.drive.Credential'` under `credenti
         String clientId
         String clientSecret
         String refreshToken
-        MultipartFile jsonCredential
+        byte[] jsonCredential
         List<String> scopes
         
         static constraints = {

@@ -55,7 +55,7 @@ class GoogleDriveInitService {
                     clientId        : credential.clientId,
                     clientSecret    : credential.clientSecret,
                     refreshToken    : credential.refreshToken,
-                    credentialStream: credential.jsonCredential ? new BufferedInputStream(credential.jsonCredential.inputStream) : null,
+                    credentialStream: credential.jsonCredential ? new BufferedInputStream(new ByteArrayInputStream(credential.jsonCredential)) : null,
                     scopes          : credential.scopes
             ]
         } catch (RuntimeException e) {
