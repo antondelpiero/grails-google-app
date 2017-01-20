@@ -14,7 +14,7 @@ class GoogleDriveInitService {
     Drive init() {
         def credential = grailsApplication.config.grails.plugin?.google?.drive?.credential?.domainClassName ? credentialFromDomain : credentialFromConfig
 
-        switch (credential.type) {
+        switch (credential?.type) {
             case AuthorizationType.USER_LOGIN:
                 log.info('Use USER_LOGIN as authorization type')
                 initWithUserLogin(credential)
@@ -37,6 +37,9 @@ class GoogleDriveInitService {
     private Map getCredentialFromConfig() {
         def credential = grailsApplication.config.grails.plugin.google.drive.credential
 
+        if (!credential)
+            return [:]
+
         credential.type = credential.type as AuthorizationType
         credential.applicationName = credential.applicationName ?: APPLICATION_NAME
         credential.credentialStream = credential.jsonCredential ? this.class.getClassLoader().getResourceAsStream(credential.jsonCredential) : null
@@ -48,6 +51,9 @@ class GoogleDriveInitService {
 
         try {
             def credential = grailsApplication.getDomainClass(className)?.clazz?.get(1)
+
+            if (!credential)
+                return [:]
 
             [
                     type            : credential.type,
