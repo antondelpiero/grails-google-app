@@ -48,26 +48,20 @@ class GoogleDriveInitService {
 
     private Map getCredentialFromDomain() {
         def className = grailsApplication.config.grails.plugin.google.drive.credential.domainClassName
+        def credential = grailsApplication.getDomainClass(className)?.clazz?.get(1)
 
-        try {
-            def credential = grailsApplication.getDomainClass(className)?.clazz?.get(1)
+        if (!credential)
+            return [:]
 
-            if (!credential)
-                return [:]
-
-            [
-                    type            : credential.type,
-                    applicationName : credential.applicationName ?: APPLICATION_NAME,
-                    clientId        : credential.clientId,
-                    clientSecret    : credential.clientSecret,
-                    refreshToken    : credential.refreshToken,
-                    credentialStream: credential.jsonCredential ? new BufferedInputStream(new ByteArrayInputStream(credential.jsonCredential)) : null,
-                    scopes          : credential.scopes
-            ]
-        } catch (RuntimeException e) {
-            log.error('Exception was thrown when calling the database. Please check your database or tables for errors!', e.cause)
-            null
-        }
+        [
+                type            : credential.type,
+                applicationName : credential.applicationName ?: APPLICATION_NAME,
+                clientId        : credential.clientId,
+                clientSecret    : credential.clientSecret,
+                refreshToken    : credential.refreshToken,
+                credentialStream: credential.jsonCredential ? new BufferedInputStream(new ByteArrayInputStream(credential.jsonCredential)) : null,
+                scopes          : credential.scopes
+        ]
     }
 
     //TODO: implement me!
