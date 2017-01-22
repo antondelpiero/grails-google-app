@@ -4,6 +4,7 @@ import com.google.api.client.http.InputStreamContent
 import com.google.api.services.drive.Drive
 import com.google.api.services.drive.model.File
 import grails.plugin.google.CustomProgressListener
+import grails.transaction.Transactional
 import org.springframework.web.multipart.MultipartFile
 import reactor.spring.context.annotation.Consumer
 import reactor.spring.context.annotation.Selector
@@ -22,6 +23,7 @@ class GoogleDriveService {
 
     @PostConstruct
     @Selector('plugin.google.drive.restart')
+    @Transactional
     void init() {
         // to make this service unit testable
         drive = googleDriveInitService?.init()
@@ -31,16 +33,19 @@ class GoogleDriveService {
         drive.files().get(id)
     }
 
+    @Transactional
     File getOrCreateFolder(String folderName) {
         File result = drive.files().list().setQ(FOLDERS_QUERY).execute().getFiles().find { it.name == folderName }
         result != null ? result : createFolder(folderName)
     }
 
+    @Transactional
     File createFolder(String folderName) {
         File fileMeta = new File(name: folderName, mimeType: FOLDER_TYPE)
         drive.files().create(fileMeta).execute()
     }
 
+    @Transactional
     File create(MultipartFile file, String folderName = null) {
         File fileMeta = getFileMeta(file.originalFilename, folderName)
         InputStreamContent inputStream = new InputStreamContent(file.contentType, file.inputStream)
@@ -48,6 +53,7 @@ class GoogleDriveService {
         sendCreateRequestAndExecute(fileMeta, inputStream)
     }
 
+    @Transactional
     File create(String fileName, String mimeType, BufferedInputStream bufferedInputStream, String folderName = null) {
         File fileMeta = getFileMeta(fileName, folderName)
         InputStreamContent inputStream = new InputStreamContent(mimeType, bufferedInputStream)
