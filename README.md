@@ -1,6 +1,6 @@
-# **Google Apps Grails Plugin** alpha
+# **Google Apps Grails Plugin** [![Build Status](https://travis-ci.org/antondelpiero/grails-google-app.svg?branch=master)](https://travis-ci.org/antondelpiero/grails-google-app)
 
-Convenience plugin to connect to google products. At the moment only google drive is supported. Other google products will be added in future updates.
+Convenience plugin to connect to google products. At the moment only google drive is supported. Other google products will be added in future updates. Be sure to check the **important notice**
 
 ## **Installation**
 
@@ -62,5 +62,4 @@ If the credential was updated, just call googleDriveService.init() or use grails
  - At the moment only 'SERVICE_ACCOUNT' or 'REFRESH_TOKEN' credential
    type can be used!!
  - If you have improvements or bug fixing, please don't hestitate to contact me or make pull request
-
  
