@@ -20,11 +20,11 @@ class GoogleDriveInitService {
                 initWithUserLogin(credential)
                 break
             case AuthorizationType.SERVICE_ACCOUNT:
-                log.info('Used SERVICE_ACCOUNT as authorization type')
+                log.info('Use SERVICE_ACCOUNT as authorization type')
                 initWithServiceAccount(credential)
                 break
             case AuthorizationType.REFRESH_TOKEN:
-                log.info('Used REFRESH_TOKEN as authorization type')
+                log.info('Use REFRESH_TOKEN as authorization type')
                 initWithRefreshToken(credential)
                 break
             default:
